@@ -16,7 +16,8 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #fff;
+    background-color: #081E32;
+    color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
@@ -30,9 +31,15 @@
   }
   
   .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
+    background-color: transparent; /* Quita cualquier fondo que pueda interferir */
+    padding: 10px; /* Espacio alrededor del logo */
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    max-height: 50px; /* Ajusta la altura del logo */
+    object-fit: contain; /* Mantén las proporciones del logo */
   }
   
   .nav-list {
@@ -43,21 +50,21 @@
   .nav-link {
     margin: 0 15px;
     text-decoration: none;
-    color: #333;
+    color: #fff;
     font-weight: bold;
     transition: color 0.3s;
   }
   
   .nav-link:hover,
   .nav-link.active {
-    color: #007bff;
+    color: #00bfff;
   }
   
   .auth-buttons .btn {
     padding: 5px 15px;
     margin-left: 10px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
+    border: 1px solid #00bfff;
+    background-color: #00bfff;
     color: #fff;
     cursor: pointer;
     border-radius: 5px;
@@ -65,7 +72,7 @@
   }
   
   .auth-buttons .btn:hover {
-    background-color: #0056b3;
+    background-color: #008fcc;
   }
   
   main {
@@ -144,9 +151,6 @@
 
 
 
-
-
-
   /* Product grid styles */
 .products-grid {
     display: grid;
@@ -200,5 +204,289 @@
     padding: 30px;
     text-align: center;
     border-radius: 8px;
+  }
+  
+
+  /* ==============================
+   COMPANY PAGE
+================================= */
+
+
+  .company-hero {
+    text-align: center;
+    background-color: #081E32;
+    color: #fff;
+    padding: 50px 20px;
+  }
+  
+  .company-hero .main-heading {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .company-hero .main-description {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+  
+  .company-details {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .company-card {
+    text-align: center;
+    max-width: 300px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .company-card h2 {
+    font-size: 1.5rem;
+    color: #081E32;
+    margin-bottom: 15px;
+  }
+  
+  .company-card p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .company-values {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .company-values .section-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #081E32;
+  }
+  
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .value-item {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .value-item h3 {
+    font-size: 1.2rem;
+    color: #081E32;
+    margin-bottom: 10px;
+  }
+  
+  .value-item p {
+    color: #555;
+  }
+  
+  .company-services {
+    padding: 50px 20px;
+    background-color: #f5f5f5;
+    text-align: center;
+  }
+  
+  .company-services .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #081E32;
+  }
+  
+  .services-list {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .services-list li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    line-height: 1.8;
+    color: #555;
+  }
+  
+  .company-history {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .company-history .section-title {
+    font-size: 2rem;
+    color: #081E32;
+    margin-bottom: 20px;
+  }
+  
+  .company-history p {
+    font-size: 1rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+  
+
+  /* ==============================
+   PRODUCTS PAGE
+================================= */
+
+
+  .products-section {
+    margin-bottom: 50px;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .section-description {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .product-card {
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-image-placeholder {
+    width: 100%;
+    height: 150px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .product-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .product-description {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+
+
+  /* ==============================
+    HOME
+  ================================= */
+
+
+  .home-hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #081E32;
+    color: #fff;
+  }
+  
+  .main-description {
+    margin: 15px auto;
+    max-width: 800px;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .modules-overview {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+  
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .module-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .module-image-placeholder {
+    width: 100%;
+    height: 150px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .module-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .module-description {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .call-to-action {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .cta-heading {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .cta-description {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .cta-btn {
+    background: #fff;
+    color: #007bff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s;
+  }
+  
+  .cta-btn:hover {
+    background: #e0e0e0;
   }
   
