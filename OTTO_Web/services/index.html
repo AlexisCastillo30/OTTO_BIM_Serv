@@ -1,92 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTTO - Home</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <meta charset="UTF-8" />
+  <title>Autodesk - Home</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
 </head>
 <body>
   <header class="header">
     <div class="header-container">
-      <div class="logo">
-        <img src="https://cdn-aps-app.s3.us-east-2.amazonaws.com/Logo_SinFondo.png" alt="Logo" class="logo-image">        
-      </div>
-      <nav class="nav">
-        <ul class="nav-list">
-          <li><a href="../services/index.html" class="nav-link active">Home</a></li>
-          <li><a href="../pages/products.html" class="nav-link">Products</a></li>
-          <li><a href="../pages/portfolio.html" class="nav-link">Portfolio</a></li>
-          <li><a href="../pages/company.html" class="nav-link">Company</a></li>
-          <li><a href="../pages/company.html" class="nav-link">Contact</a></li>
-          <li><a href="../pages/company.html" class="nav-link">Blog</a></li>
-        </ul>
-      </nav>
+      <!-- ... tu logo y navegación ... -->
+
       <div class="auth-buttons">
-        <button class="btn login-btn">Buy Now</button>
-        <button class="btn login-btn">Login</button>
-        <button class="btn register-btn">Register</button>
+        <!-- Link de Login (apunta a tu backend) -->
+        <a href="/auth/login" class="btn login-btn">Login</a>
+        <!-- Link de Register (apunta a tu backend) -->
+        <a href="/auth/signup" class="btn register-btn">Register</a>
+        
+        <!-- Botón Logout (oculto al inicio) -->
+        <button
+          id="logoutBtn"
+          class="btn logout-btn"
+          style="display: none;"
+          onclick="doLogout()"
+        >
+          Logout
+        </button>
+        
+        <!-- Span para mostrar el correo del usuario logueado -->
+        <span
+          id="userNameSpan"
+          style="margin-left: 15px; color: #fff; font-weight: bold;"
+        ></span>
       </div>
     </div>
   </header>
-  <main class="main">
-    <!-- Hero Section -->
-    <section class="home-hero">
-      <h1 class="main-heading">Bienvenido a OTTO</h1>
-      <p class="main-description">
-        En <strong>OTTO</strong>, transformamos la industria AEC (Arquitectura, Ingeniería y Construcción) con soluciones avanzadas de BIM (Building Information Modeling). 
-        Nuestra misión es maximizar el valor de tus modelos digitales, asegurando calidad, eficiencia y sostenibilidad en cada proyecto.
-      </p>
-      <p class="main-description">
-        Desde la revisión de estándares y automatización hasta la implementación de gemelos digitales y dashboards en tiempo real, OTTO es tu socio estratégico para la transformación BIM. Descubre cómo revolucionamos tus proyectos.
-      </p>
-    </section>
 
-    <!-- Modules Overview Section -->
-    <section class="modules-overview">
-      <h2 class="section-title">Nuestros Módulos</h2>
-      <p class="section-description">
-        En OTTO, nuestras soluciones están organizadas en tres módulos principales. Cada módulo está diseñado para cubrir necesidades específicas y potenciar el impacto de tus modelos BIM.
-      </p>
+  <!-- Tu contenido principal (hero, secciones, etc.) -->
+  <!-- <main> ... </main> -->
+  <!-- <footer> ... </footer> -->
 
-      <!-- Modules -->
-      <div class="modules-grid">
-        <div class="module-card">
-          <div class="module-image-placeholder"></div>
-          <h3 class="module-title">WEB API's</h3>
-          <p class="module-description">
-            Soluciones avanzadas para integrar modelos BIM en tiempo real, automatizar procesos y mejorar la calidad del proyecto en todas las dimensiones (3D, 4D, 5D, 6D, 7D).
-          </p>
-        </div>
-        <div class="module-card">
-          <div class="module-image-placeholder"></div>
-          <h3 class="module-title">Revit API's Modeling</h3>
-          <p class="module-description">
-            Herramientas personalizables para automatizar tareas, cargar datos, generar muros y evitar interferencias, optimizando los flujos de trabajo BIM.
-          </p>
-        </div>
-        <div class="module-card">
-          <div class="module-image-placeholder"></div>
-          <h3 class="module-title">Custom API's</h3>
-          <p class="module-description">
-            Aplicaciones configurables para revisar estándares BIM, validar familias, planos y garantizar la calidad de tus modelos Revit.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="call-to-action">
-      <h2 class="cta-heading">¿Listo para transformar tus proyectos con OTTO?</h2>
-      <p class="cta-description">
-        Explora nuestra sección de productos para descubrir todas nuestras soluciones BIM, visita nuestro portafolio para conocer casos de éxito, 
-        y aprende más sobre nuestra empresa en la sección de compañía.
-      </p>
-      <button class="btn cta-btn">Descubre Más</button>
-    </section>
-  </main>
-  <footer class="footer">
-    <p class="footer-text">© 2025 OTTO. All rights reserved. Proudly based in Colombia.</p>
-  </footer>
+  <!-- Tu script principal -->
+  <script src="../assets/js/scripts.js"></script>
+  <!-- Para decodificar tokens JWT -->
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 </body>
 </html>

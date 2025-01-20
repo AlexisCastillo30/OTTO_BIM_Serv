@@ -1,0 +1,39 @@
+// .vscode/launch.json
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        // Nombre que verás en el panel de Run and Debug
+        "name": "Nodemon (Node.js, navegador predeterminado)",
+        // <-- en lugar de "pwa-node"
+        "type": "node",
+        // "launch" indica que VS Code ejecutará un proceso
+        "request": "launch",
+        
+        // Comando que se ejecutará: nodemon (asegúrate de tenerlo instalado)
+        "runtimeExecutable": "nodemon",
+        
+        // Archivo principal donde inicia tu servidor
+        "program": "${workspaceFolder}/server.js",
+        
+        // Para usar la consola integrada de VS Code
+        "console": "integratedTerminal",
+        
+        // Esta sección permite que VS Code abra el navegador cuando reconozca el mensaje "Servidor corriendo ..."
+        "serverReadyAction": {
+          // Regex que busca el puerto en tu console.log, 
+          // ej.: console.log("Servidor corriendo en http://localhost:8080");
+          "pattern": "Servidor corriendo en http://localhost:(\\d+)",
+          
+          // La URL que va a abrir
+          "uriFormat": "http://localhost:%s/services/index.html",
+          
+          // Indica que abra en el navegador por defecto
+          "action": "openExternally"
+          
+          // Omitimos "browserName" para no forzar Chrome o Brave
+        }
+      }
+    ]
+  }
+  

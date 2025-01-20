@@ -1,27 +1,25 @@
-// assets/js/scripts.js
-
 // 1) Esperamos a que cargue el DOM
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Página cargada correctamente.");
 });
 
-// 2) Detectar si hay ?code= en la URL
+// 2) Ver si en la URL viene "?code=..."
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   const authCode = urlParams.get('code');
 
   if (authCode) {
     console.log("Cognito code detectado:", authCode);
-    // Intercambiamos code por tokens en tu backend
+    // Intercambiamos el code por tokens en tu backend
     exchangeCodeViaBackend(authCode);
   } else {
-    // Si no hay code, simplemente chequeamos tokens
+    // Si no hay code, chequear si ya hay tokens guardados
     checkAndDisplayUserInfo();
   }
 });
 
 /**
- * Llama a /exchangeCode?code= para canjear tokens
+ * Llamar a /exchangeCode para obtener los tokens a partir de un "code"
  */
 function exchangeCodeViaBackend(code) {
   fetch(`/exchangeCode?code=${code}`)
@@ -38,50 +36,49 @@ function exchangeCodeViaBackend(code) {
       sessionStorage.setItem('accessToken', data.access_token);
       sessionStorage.setItem('idToken', data.id_token);
 
-      // Remover el ?code= de la URL
+      // Quitar el ?code= de la URL
       window.history.replaceState({}, document.title, window.location.pathname);
 
-      // Actualizamos la UI
+      // Actualizar la UI
       checkAndDisplayUserInfo();
     })
     .catch(err => {
-      console.error("Error llamando a /exchangeCode:", err);
+      console.error("Error en /exchangeCode:", err);
     });
 }
 
 /**
- * checkAndDisplayUserInfo():
- * - Si tenemos idToken => ocultar Login y Register, mostrar Logout (+ email)
- * - Si no => revertir
+ * checkAndDisplayUserInfo()
+ * - Si tenemos un idToken => mostrar Logout y el email
+ * - Si no => mostrar Login/Register
  */
 function checkAndDisplayUserInfo() {
   const idToken = sessionStorage.getItem('idToken');
 
-  // Seleccionamos elementos
+  // Referencias a elementos del DOM
   const loginLink = document.querySelector('.login-btn');
   const registerLink = document.querySelector('.register-btn');
   const logoutBtn = document.querySelector('.logout-btn');
   const userNameSpan = document.getElementById('userNameSpan');
 
   if (idToken) {
-    // Decodificamos el idToken para extraer email
     try {
+      // Decodificamos el ID Token para extraer p.ej. email
       const decoded = jwt_decode(idToken);
       console.log('ID Token decodificado:', decoded);
       if (decoded.email) {
         userNameSpan.textContent = `Usuario: ${decoded.email}`;
       }
     } catch (error) {
-      console.error('Error decodificando token:', error);
+      console.error('Error al decodificar token:', error);
     }
 
-    // Ocultamos Login, Register, mostramos Logout
+    // Mostrar botón de Logout, ocultar Login/Register
     if (loginLink) loginLink.style.display = 'none';
     if (registerLink) registerLink.style.display = 'none';
     if (logoutBtn) logoutBtn.style.display = 'inline-block';
-
   } else {
-    // Si no hay token => revertir
+    // No hay token => mostrar Login/Register, ocultar Logout
     userNameSpan.textContent = '';
     if (loginLink) loginLink.style.display = 'inline-block';
     if (registerLink) registerLink.style.display = 'inline-block';
@@ -91,16 +88,12 @@ function checkAndDisplayUserInfo() {
 
 /**
  * doLogout():
- * - Limpia tokens en sessionStorage
- * - Llama al logout de Cognito con ?logout_uri=...
+ * - Limpia tokens locales
+ * - Redirige a /auth/logout (nuestro backend)
  */
 function doLogout() {
+  // Borrar tokens en sessionStorage
   sessionStorage.clear();
-
-  const clientId = '6b5qqk9ueg4irgfqvs4ka88m4p';
-  // Allowed sign-out URLs en Cognito => http://localhost:8080
-  const logoutUrl = `https://us-east-2hjiifs5ri.auth.us-east-2.amazoncognito.com/logout?client_id=${clientId}&logout_uri=http://localhost:8080`;
-
-  // Redirige a Cognito logout
-  window.location.href = logoutUrl;
+  // Redirigir a la ruta de logout en el servidor
+  window.location.href = '/auth/logout';
 }
