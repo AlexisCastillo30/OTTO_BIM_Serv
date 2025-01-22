@@ -45,10 +45,10 @@
     <table id="licensesTable" class="licenses-table">
       <thead>
         <tr>
-          <th>Producto</th>
+          <th>Name Lic</th>          
           <th>Status</th>
-          <th>Fecha de Vencimiento</th>
-          <th>License ID</th>
+          <th>Fecha de Vencimiento</th> 
+          <th>Días Restantes</th>          
         </tr>
       </thead>
       <tbody></tbody>
@@ -176,23 +176,50 @@
       licenses.forEach(lic => {
         const tr = document.createElement('tr');
 
-        const tdProd = document.createElement('td');
-        tdProd.textContent = lic.product_id || lic.license_id || '';
-        tr.appendChild(tdProd);
-
+        const tdname = document.createElement('td');
+        tdname.textContent = lic.name || '';
+        tr.appendChild(tdname);      
+        
+        // Status (ACTIVA / INACTIVA según fecha)
         const tdStatus = document.createElement('td');
-        tdStatus.textContent = lic.status || '';
+        const expDateStr = lic.expiration_date || lic.expires_at;
+        if (expDateStr) {
+          const now = new Date();
+          const expDate = new Date(expDateStr);
+          // Comparar
+          if (expDate > now) {
+            tdStatus.textContent = 'Activa';
+          } else {
+            tdStatus.textContent = 'Inactiva';
+          }
+        } else {
+          // Si no hay fecha de expiración, definimos un texto por defecto
+          tdStatus.textContent = 'Desconocido';
+        }
         tr.appendChild(tdStatus);
 
-        const tdExp = document.createElement('td');
-        // En tu DB puede ser 'expiration_date' o 'expires_at'
-        tdExp.textContent = lic.expiration_date || lic.expires_at || '';
+        const tdExp = document.createElement('td');        
+        tdExp.textContent = lic.expires_at || '';
         tr.appendChild(tdExp);
 
-        const tdId = document.createElement('td');
-        // Si tienes 'license_id', úsalo; si no, usa 'product_id'
-        tdId.textContent = lic.license_id || lic.product_id || '';
-        tr.appendChild(tdId);
+        // COLUMNA "DÍAS RESTANTES"
+        const tdDays = document.createElement('td');
+        if (expDateStr) {
+          const now = new Date();
+          const expDate = new Date(expDateStr);
+          const diffMs = expDate - now;  // Diferencia en milisegundos
+          const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24)); // Convierte ms a días
+
+          // Si ya expiró, diffDays saldrá negativo. Puedes mostrar 0 o "Expirada"
+          if (diffDays <= 0) {
+            tdDays.textContent = 'Expirada'; 
+          } else {
+            tdDays.textContent = diffDays.toString(); 
+          }
+        } else {
+          tdDays.textContent = ''; // o 'N/A'
+        }
+        tr.appendChild(tdDays);
 
         tbody.appendChild(tr);
       });
