@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Autodesk - Licencias</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">Autodesk</div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../services/index.html" class="nav-link">Home</a></li>
+          <li>
+            <a href="/pages/profile.html"
+               class="nav-link active"
+               id="profileLink"
+               style="display:none;">Mi Cuenta</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <!-- Botón de Logout (se muestra solo si hay tokens) -->
+        <button
+          id="logoutBtn"
+          class="btn logout-btn"
+          style="display: none;"
+          onclick="doLogout()"
+        >
+          Logout
+        </button>
+        <!-- Aquí mostramos el email o nombre de usuario -->
+        <span
+          id="userNameSpan"
+          style="margin-left: 15px; color: #fff; font-weight: bold;"
+        ></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-main">
+    <h1>Perfil de Usuario</h1>
+    <h2>Licencias</h2>
+    <table id="licensesTable" class="licenses-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Status</th>
+          <th>Fecha de Vencimiento</th>
+          <th>License ID</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <footer>
+    <p>© 2025 TuCompañía</p>
+  </footer>
+
+  <!-- Scripts: jwt-decode y tu scripts.js -->
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  <script src="../assets/js/scripts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1) Obtenemos tokens (si ya existen)
+      const accessToken = sessionStorage.getItem('accessToken');
+      const idToken = sessionStorage.getItem('idToken');
+
+      // 2) Actualizamos el header (muestra/oculta Logout, etc.)
+      checkAuthAndUpdateUI();
+
+      // 3) Verificar si Cognito nos mandó ?code= en la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const authCode = urlParams.get('code');
+
+      if (authCode) {
+        console.log("Profile: authCode detectado => intercambio de tokens");
+        // Intercambiar code => tokens con tu servidor local
+        exchangeCodeForTokens(authCode);
+      } else {
+        // Si NO viene code y ya tenemos tokens => cargar licencias
+        if (accessToken) {
+          console.log("Profile: Ya hay tokens => cargar licencias");
+          loadLicenses(accessToken); 
+          // O loadLicenses(idToken) si el accessToken no tiene 'sub'
+        } else {
+          console.log("Profile: No tokens => forzar login");
+          // No hay code, no hay tokens => forzar login
+          window.location.href = '/auth/login';
+        }
+      }
+    });
+
+    /**
+     * Intercambiar code por tokens con /exchangeCode en tu servidor local
+     */
+    function exchangeCodeForTokens(code) {
+      console.log("Profile: Llamando a /exchangeCode con code:", code);
+      fetch(`/exchangeCode?code=${code}`)
+        .then(resp => resp.json())
+        .then(data => {
+          console.log("Profile: Respuesta de /exchangeCode:", data);
+          if (data.error) {
+            console.error("Error en exchangeCode:", data.error);
+            return;
+          }
+          // Guardar tokens en sessionStorage
+          sessionStorage.setItem('accessToken', data.access_token);
+          sessionStorage.setItem('idToken', data.id_token);
+
+          // Quitar "?code=..." de la URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          // Actualizamos header
+          checkAuthAndUpdateUI();
+
+          // Cargar licencias usando el accessToken (o idToken si lo prefieres)
+          loadLicenses(data.access_token);
+        })
+        .catch(err => console.error("Error en intercambio de code:", err));
+    }
+
+    /**
+     * Llamamos a la API Gateway con 'sub'
+     * Cambia la URL para que apunte a tu API Gateway real
+     * donde tu Lambda retorna {"items": [...], "count": N}
+     */
+    function loadLicenses(accessToken) {
+      console.log("Profile: Llamando a API Gateway con accessToken");
+
+      // Decodificamos el token para extraer "sub"
+      const decoded = jwt_decode(accessToken);
+      const userSub = decoded.sub;
+      if (!userSub) {
+        console.error("El token no contiene 'sub'. Revisa si es un accessToken o idToken con sub.");
+        return;
+      }
+
+      // Ajusta la URL a tu API Gateway real:
+      // Ej: https://11h1lmpva9.execute-api.us-east-2.amazonaws.com/usuarios/{sub}/licencias
+      const endpoint = `https://11h1lmpva9.execute-api.us-east-2.amazonaws.com/usuarios/${userSub}/licencias`;
+
+      fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log("Profile: Licencias recibidas =>", data);
+
+        // Tu Lambda devuelve { items: [...], count: 5 }
+        // => extraemos 'items'
+        const licenses = data.items || [];
+        if (!Array.isArray(licenses)) {
+          console.error('No es un array de licencias:', licenses);
+          return;
+        }
+
+        // Pinta la tabla
+        renderLicenses(licenses);
+      })
+      .catch(err => console.error('Error al cargar licencias:', err));
+    }
+
+    /**
+     * renderLicenses(licenses) - Muestra las licencias en la tabla
+     */
+    function renderLicenses(licenses) {
+      const tbody = document.querySelector('#licensesTable tbody');
+      tbody.innerHTML = '';
+
+      licenses.forEach(lic => {
+        const tr = document.createElement('tr');
+
+        const tdProd = document.createElement('td');
+        tdProd.textContent = lic.product_id || lic.license_id || '';
+        tr.appendChild(tdProd);
+
+        const tdStatus = document.createElement('td');
+        tdStatus.textContent = lic.status || '';
+        tr.appendChild(tdStatus);
+
+        const tdExp = document.createElement('td');
+        // En tu DB puede ser 'expiration_date' o 'expires_at'
+        tdExp.textContent = lic.expiration_date || lic.expires_at || '';
+        tr.appendChild(tdExp);
+
+        const tdId = document.createElement('td');
+        // Si tienes 'license_id', úsalo; si no, usa 'product_id'
+        tdId.textContent = lic.license_id || lic.product_id || '';
+        tr.appendChild(tdId);
+
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>

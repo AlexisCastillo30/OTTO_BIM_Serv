@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.731.1",
     "aws-amplify": "^6.12.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "node-fetch": "^2.7.0"
   },
   "devDependencies": {

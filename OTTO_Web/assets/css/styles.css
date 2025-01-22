@@ -16,7 +16,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #081E32;
+    background-color: #000000;
     color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
@@ -487,3 +487,23 @@
     background: #e0e0e0;
   }
   
+
+
+  /* Para la tabla de licencias */
+.licenses-table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: sans-serif;
+}
+.licenses-table th, .licenses-table td {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  text-align: left;
+}
+.licenses-table thead {
+  background-color: #f2f2f2;
+}
+.licenses-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}

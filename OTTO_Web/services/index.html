@@ -8,15 +8,22 @@
 <body>
   <header class="header">
     <div class="header-container">
-      <!-- ... tu logo y navegación ... -->
-
+      <div class="logo">Autodesk</div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../services/index.html" class="nav-link active">Home</a></li>
+          <li>
+            <a href="/pages/profile.html"
+               class="nav-link"
+               id="profileLink"
+               style="display:none;">Mi Cuenta</a>
+          </li>
+        </ul>
+      </nav>
       <div class="auth-buttons">
-        <!-- Link de Login (apunta a tu backend) -->
-        <a href="/auth/login" class="btn login-btn">Login</a>
-        <!-- Link de Register (apunta a tu backend) -->
-        <a href="/auth/signup" class="btn register-btn">Register</a>
-        
-        <!-- Botón Logout (oculto al inicio) -->
+        <!-- Agregamos IDs para controlarlos vía scripts.js -->
+        <a href="/auth/login" class="btn login-btn" id="loginBtn">Login</a>
+        <a href="/auth/signup" class="btn register-btn" id="registerBtn">Register</a>
         <button
           id="logoutBtn"
           class="btn logout-btn"
@@ -25,8 +32,6 @@
         >
           Logout
         </button>
-        
-        <!-- Span para mostrar el correo del usuario logueado -->
         <span
           id="userNameSpan"
           style="margin-left: 15px; color: #fff; font-weight: bold;"
@@ -35,13 +40,23 @@
     </div>
   </header>
 
-  <!-- Tu contenido principal (hero, secciones, etc.) -->
-  <!-- <main> ... </main> -->
-  <!-- <footer> ... </footer> -->
+  <main>
+    <h1>Bienvenido a la página de inicio</h1>
+  </main>
 
-  <!-- Tu script principal -->
-  <script src="../assets/js/scripts.js"></script>
-  <!-- Para decodificar tokens JWT -->
+  <footer>
+    <p>© 2025 TuCompañía</p>
+  </footer>
+
+  <!-- Scripts comunes -->
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  <script src="../assets/js/scripts.js"></script>
+  <script>
+    // Al cargar la página, revisamos si ya hay tokens
+    document.addEventListener('DOMContentLoaded', () => {
+      // console.log("Home: DOMContentLoaded");
+      checkAuthAndUpdateUI();
+    });
+  </script>
 </body>
 </html>
