@@ -26,7 +26,7 @@
           "pattern": "Servidor corriendo en http://localhost:(\\d+)",
           
           // La URL que va a abrir
-          "uriFormat": "http://localhost:%s/services/index.html",
+          "uriFormat": "http://localhost:%s/index.html",
           
           // Indica que abra en el navegador por defecto
           "action": "openExternally"

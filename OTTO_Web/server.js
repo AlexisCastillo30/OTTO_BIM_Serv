@@ -29,7 +29,7 @@ app.get('/favicon.ico', (req, res) => {
 
 // (1) Redirigir a /services/index.html
 app.get('/', (req, res) => {
-  res.redirect('/services/index.html');
+  res.redirect('/index.html');
 });
 
 // (2) /auth/login => Hosted UI de Cognito

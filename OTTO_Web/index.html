@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Autodesk - Home</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <!-- <img src="https://cdn-aps-app.s3.us-east-2.amazonaws.com/Logo_SinFondo.png" alt="Logo" class="logo-image"> -->
+      </div> 
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../services/index.html" class="nav-link active">Home</a></li>
+          <!-- <li><a href="../pages/products.html" class="nav-link">Products</a></li>
+          <li><a href="../pages/portfolio.html" class="nav-link">Portfolio</a></li>
+          <li><a href="../pages/company.html" class="nav-link">Company</a></li>
+          <li><a href="../pages/company.html" class="nav-link">Contact</a></li>
+          <li><a href="../pages/company.html" class="nav-link">Blog</a></li> -->
+          <li>
+            <a href="/pages/profile.html"
+               class="nav-link"
+               id="profileLink"
+               style="display:none;">Mi Cuenta</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <!-- Agregamos IDs para controlarlos vía scripts.js -->
+        <a href="/auth/login" class="btn login-btn" id="loginBtn">Login</a>
+        <a href="/auth/signup" class="btn register-btn" id="registerBtn">Register</a>
+        <button
+          id="logoutBtn"
+          class="btn logout-btn"
+          style="display: none;"
+          onclick="doLogout()"
+        >
+          Logout
+        </button>
+        <span
+          id="userNameSpan"
+          style="margin-left: 15px; color: #fff; font-weight: bold;"
+        ></span>
+      </div>
+    </div>
+  </header>
+
+
+
+  <footer class="footer">
+    <p class="footer-text">© 2025 . All rights reserved. Proudly based in Colombia.</p>
+  </footer>
+
+  <!-- Scripts comunes -->
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  <script src="../assets/js/scripts.js"></script>
+  <script>
+    // Al cargar la página, revisamos si ya hay tokens
+    document.addEventListener('DOMContentLoaded', () => {
+      // console.log("Home: DOMContentLoaded");
+      checkAuthAndUpdateUI();
+    });
+  </script>
+</body>
+</html>
