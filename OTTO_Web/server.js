@@ -16,7 +16,7 @@ const COGNITO_DOMAIN = process.env.COGNITO_DOMAIN;
 
 // Ajusta la región de AWS a la de tu DynamoDB
 const REGION = process.env.AWS_REGION || 'us-east-2';
-const TABLE_NAME = process.env.LICENSE_TABLE_NAME || 'Licenses';
+const TABLE_NAME = process.env.LICENSE_TABLE_NAME || 'Licencias';
 
 const dynamoClient = new DynamoDBClient({ region: REGION });
 
